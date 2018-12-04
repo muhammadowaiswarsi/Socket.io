@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+</head>
+
+<body>
+    Name: <input id="data" type="text" name="fname">
+    <input type="submit" value="Submit" onclick="action();">
+
+    <div id="output">
+
+    </div>
+
+    <script>
+        let socket = io.connect('http://localhost:3000');
+        var output = document.getElementById("output")
+
+        /// socket Emit
+        function action() {
+            var x = document.getElementById("data").value;
+            console.log(x)
+            socket.emit('chat', {
+                message: x
+            })
+        }
+
+
+        //// Listen for Events
+        socket.on('chat', function (data) {
+            output.innerHTML += '<p>' + data.message + '</p>'
+        })
+    </script>
+</body>
+
+</html>
